@@ -137,6 +137,20 @@ main p {
   margin: 16px 0;
 }
 
+main p.copyable {
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
+}
+
+main p.copyable:hover {
+  background-color: rgba(226, 99, 127, 0.08);
+}
+
+main p.copyable.copied {
+  background-color: rgba(226, 99, 127, 0.2);
+}
+
 section + section {
   border-top: 1px dotted #333;
 }

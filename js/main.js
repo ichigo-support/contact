@@ -66,4 +66,33 @@ function getTodayDate() {
 
 getTodayDate();
 
+function copyTextToClipboard(text) {
+  if (navigator.clipboard && window.isSecureContext) {
+    return navigator.clipboard.writeText(text);
+  }
+  const textarea = document.createElement('textarea');
+  textarea.value = text;
+  textarea.style.position = 'fixed';
+  textarea.style.opacity = '0';
+  document.body.appendChild(textarea);
+  textarea.select();
+  document.execCommand('copy');
+  document.body.removeChild(textarea);
+  return Promise.resolve();
+}
+
+document.querySelectorAll('main p').forEach((p) => {
+  p.classList.add('copyable');
+  p.title = 'クリックでコピー';
+
+  p.addEventListener('click', () => {
+    copyTextToClipboard(p.innerText).then(() => {
+      p.classList.add('copied');
+      setTimeout(() => {
+        p.classList.remove('copied');
+      }, 800);
+    });
+  });
+});
+
 }
