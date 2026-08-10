@@ -2,7 +2,7 @@
 
 :root {
   --main_color: #ffe0f8;
-  --accent_color: #f47645;
+  --accent_color: #e2637f;
 }
 
 body {
@@ -125,7 +125,7 @@ main h2 {
 
 main h3 {
   font-size: 13px;
-  color: var(--main_color);
+  color: #b98a92;
   margin-bottom: 0;
 }
 
