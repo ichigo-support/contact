@@ -2,8 +2,9 @@
 <html lang="ja">
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>いちごチャット</title>
-  <meta name="description" content="お問合せ一覧です。">
+  <meta name="description" content="">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -12,26 +13,62 @@
   <h1><a href="index.html">いちごチャット</a></h1>
 </header>
 
-<nav></nav>
+<nav>
+  <ul>
+    <li><a href="interview_before.html">面接まで</a></li>
+    <li><a href="interview.html">面接 (前日＋当日)</a></li>
+    <li><a href="index.html">出勤確認</a></li>
+    <li><a href="others.html">その他の対応</a></li>
+    <li><a href="line.html">ラインノート</a></li>
+    <li><a href="campaign.html">キャンペーン</a></li>
+    <li><a href="cash.html">月次会計報告</a></li>
+  </ul>
+</nav>
 
 <main>
 
   <section>
-    <h1>ひとことメッセージ</h1>
-    <form>
-      <p>
-        <textarea rows="4" cols="50"></textarea>
-      </p>
-      <p>
-        <textarea rows="4" cols="50"></textarea>
-      </p>
-    </form>
+    <h2>前日確認メール</h2>
+    <p>
+      お疲れ様です。<br>
+      前日確認のお知らせになります。<br><br>
+      <span id="one_days_after"></span>　00:00～<br>
+      部屋番号　405<br><br>
+      にて、お待ちしております。<br>
+    </p>
+    <h3>補足</h3>
+    <p>
+      場所がお分かりにならない場合、栄駅の１３番出口にお迎えにあがりますので、ご連絡くださいー
+    </p>
+  </section>
+
+  <section>
+    <h2>当日確認メール</h2>
+    <p>
+      お疲れ様です。<br>
+      当日確認のお知らせになります。<br><br>
+      <span id="Today"></span>　00:00～<br>
+      部屋番号　405<br><br>
+      にて、お待ちしております。<br>
+    </p>
+    <h3>補足</h3>
+    <p>
+      場所がお分かりにならない場合、栄駅の１３番出口にお迎えにあがりますので、ご連絡くださいー
+    </p>
+  </section>
+
+  <section>
+    <h2>在宅稼働　翌日</h2>
+    <p>
+      おはようございます。<br>
+      昨日はお疲れ様でしたー♪
+    </p>
   </section>
 
 </main>
 
 <footer>
-  <p><a href="index.html">&copy;ハッピーランド</a></p>
+  <p><a href="index.html">&copy;いちごチャット</a></p>
 </footer>
 
 <script src="js/main.js"></script>

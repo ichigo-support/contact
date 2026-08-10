@@ -1,20 +1,25 @@
 'use strict';
 {
-const left = document.querySelector('nav');
-left.innerHTML = '<nav>'+
-                  '<ul>'+
-                  '<li><a href="interview_before.html">面接まで</a></li>'+
-                  '<li><a href="interview.html">面接 (前日＋当日)</a></li>'+
-                  '<li><a href="go_to_the_office.html">出勤確認</a></li>'+
-                  '<li><a href="others.html">その他の対応</a></li>'+
-                  '<li><a href="line.html">ラインノート</a></li>'+
-                  '<li><a href="campaign.html">キャンペーン</a></li>'+
-                  '<li><a href="cash.html">月次会計報告</a></li>'+
-                  '</ul>'+
-                  '</nav>';
 
-function getDate() {
+const backToTop = document.createElement('button');
+backToTop.id = 'back-to-top';
+backToTop.type = 'button';
+backToTop.setAttribute('aria-label', 'ページの先頭に戻る');
+backToTop.textContent = '↑';
+document.body.appendChild(backToTop);
+
+window.addEventListener('scroll', () => {
+  backToTop.classList.toggle('show', window.scrollY > 400);
+});
+
+backToTop.addEventListener('click', () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+function getTomorrowDate() {
   const one_days_after = document.getElementById('one_days_after');
+  if (!one_days_after) return;
+
   //今日の日付
   let today = new Date();
   //１日後
@@ -35,14 +40,14 @@ function getDate() {
   one_days_after.textContent = `${month + 1}/${date}(${days[day]})`;
 }
 
-getDate();
+getTomorrowDate();
 
-function gettDate() {
+function getTodayDate() {
   const Today = document.getElementById('Today');
+  if (!Today) return;
+
   //今日の日付
   let today = new Date();
-  //１日後
-  today.setDate(today.getDate());
 
   const month = today.getMonth();
   const date = today.getDate();
@@ -59,6 +64,6 @@ function gettDate() {
   Today.textContent = `${month + 1}/${date}(${days[day]})`;
 }
 
-gettDate();
+getTodayDate();
 
 }
