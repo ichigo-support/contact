@@ -1,7 +1,7 @@
 /* comon */
 
 :root {
-  --main_color: #ffe0f8;
+  --main_color: #ec99ab;
   --accent_color: #e2637f;
 }
 
@@ -59,7 +59,13 @@ header {
 
 header h1 {
   font-size: 16px;
-  vertical-align: center;
+  height: 100%;
+}
+
+header h1 a {
+  display: block;
+  height: 100%;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
   line-height: 45px;
   padding: 0 16px;
 }
@@ -115,6 +121,11 @@ nav li a:hover {
   text-decoration: underline;
 }
 
+nav li a[aria-current="page"] {
+  color: var(--accent_color);
+  font-weight: bold;
+}
+
 /* main */
 
 main h2 {
@@ -165,6 +176,11 @@ footer {
   color: #fff;
 }
 
+footer p a {
+  font-weight: 600;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+}
+
 /* トップに戻るボタン */
 
 #back-to-top {
@@ -198,4 +214,27 @@ footer {
   opacity: 1;
   transform: translateY(0);
   pointer-events: auto;
+}
+
+/* コピー完了トースト */
+
+#copy-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  transform: translate(-50%, 10px);
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  padding: 8px 18px;
+  border-radius: 20px;
+  font-size: 13px;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.25s ease;
+  z-index: 3;
+}
+
+#copy-toast.show {
+  opacity: 1;
+  transform: translate(-50%, 0);
 }

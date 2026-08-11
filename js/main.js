@@ -81,6 +81,21 @@ function copyTextToClipboard(text) {
   return Promise.resolve();
 }
 
+const copyToast = document.createElement('div');
+copyToast.id = 'copy-toast';
+copyToast.textContent = 'コピーしました';
+copyToast.setAttribute('role', 'status');
+document.body.appendChild(copyToast);
+
+let copyToastTimer;
+function showCopyToast() {
+  copyToast.classList.add('show');
+  clearTimeout(copyToastTimer);
+  copyToastTimer = setTimeout(() => {
+    copyToast.classList.remove('show');
+  }, 1200);
+}
+
 document.querySelectorAll('main p').forEach((p) => {
   p.classList.add('copyable');
   p.title = 'クリックでコピー';
@@ -88,6 +103,7 @@ document.querySelectorAll('main p').forEach((p) => {
   p.addEventListener('click', () => {
     copyTextToClipboard(p.innerText).then(() => {
       p.classList.add('copied');
+      showCopyToast();
       setTimeout(() => {
         p.classList.remove('copied');
       }, 800);
