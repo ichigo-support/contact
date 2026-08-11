@@ -83,27 +83,65 @@ function copyTextToClipboard(text) {
 
 const copyToast = document.createElement('div');
 copyToast.id = 'copy-toast';
-copyToast.textContent = 'コピーしました';
 copyToast.setAttribute('role', 'status');
 document.body.appendChild(copyToast);
 
 let copyToastTimer;
-function showCopyToast() {
+function showCopyToast(message) {
+  copyToast.textContent = message;
   copyToast.classList.add('show');
   clearTimeout(copyToastTimer);
   copyToastTimer = setTimeout(() => {
     copyToast.classList.remove('show');
-  }, 1200);
+  }, 1600);
+}
+
+function wrapPlaceholders(p) {
+  const walker = document.createTreeWalker(p, NodeFilter.SHOW_TEXT);
+  const targets = [];
+  let node;
+  while ((node = walker.nextNode())) {
+    if (node.nodeValue.includes('●●')) {
+      targets.push(node);
+    }
+  }
+  targets.forEach((textNode) => {
+    const parts = textNode.nodeValue.split('●●');
+    const frag = document.createDocumentFragment();
+    parts.forEach((part, i) => {
+      if (part) frag.appendChild(document.createTextNode(part));
+      if (i < parts.length - 1) {
+        const mark = document.createElement('span');
+        mark.className = 'placeholder';
+        mark.textContent = '●●';
+        frag.appendChild(mark);
+      }
+    });
+    textNode.parentNode.replaceChild(frag, textNode);
+  });
 }
 
 document.querySelectorAll('main p').forEach((p) => {
+  wrapPlaceholders(p);
   p.classList.add('copyable');
   p.title = 'クリックでコピー';
 
   p.addEventListener('click', () => {
     copyTextToClipboard(p.innerText).then(() => {
       p.classList.add('copied');
-      showCopyToast();
+
+      const placeholders = p.querySelectorAll('.placeholder');
+      if (placeholders.length > 0) {
+        placeholders.forEach((mark) => {
+          mark.classList.remove('flash');
+          void mark.offsetWidth;
+          mark.classList.add('flash');
+        });
+        showCopyToast('コピーしました（●●の書き換えを忘れずに）');
+      } else {
+        showCopyToast('コピーしました');
+      }
+
       setTimeout(() => {
         p.classList.remove('copied');
       }, 800);
