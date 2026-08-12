@@ -74,15 +74,19 @@ function showCopyToast(message) {
   }, 1600);
 }
 
-const PLACEHOLDER_MARKERS = ['●●', '▲▲'];
+const PLACEHOLDER_CHARS = /[●▲]/;
+
+function isPlaceholder(part) {
+  return /^(●+|▲+)$/.test(part);
+}
 
 function wrapPlaceholders(p) {
-  const markerPattern = /(●●|▲▲)/g;
+  const markerPattern = /(●+|▲+)/g;
   const walker = document.createTreeWalker(p, NodeFilter.SHOW_TEXT);
   const targets = [];
   let node;
   while ((node = walker.nextNode())) {
-    if (PLACEHOLDER_MARKERS.some((marker) => node.nodeValue.includes(marker))) {
+    if (PLACEHOLDER_CHARS.test(node.nodeValue)) {
       targets.push(node);
     }
   }
@@ -91,9 +95,9 @@ function wrapPlaceholders(p) {
     const frag = document.createDocumentFragment();
     parts.forEach((part) => {
       if (!part) return;
-      if (PLACEHOLDER_MARKERS.includes(part)) {
+      if (isPlaceholder(part)) {
         const mark = document.createElement('span');
-        mark.className = 'placeholder';
+        mark.className = part.startsWith('▲') ? 'placeholder placeholder-triangle' : 'placeholder';
         mark.textContent = part;
         frag.appendChild(mark);
       } else {
