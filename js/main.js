@@ -16,28 +16,21 @@ backToTop.addEventListener('click', () => {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 });
 
+const WEEKDAY_LABELS = ['日', '月', '火', '水', '木', '金', '土'];
+
+function formatDateWithDay(date) {
+  return `${date.getMonth() + 1}/${date.getDate()}(${WEEKDAY_LABELS[date.getDay()]})`;
+}
+
 function getTomorrowDate() {
   const one_days_after = document.getElementById('one_days_after');
   if (!one_days_after) return;
 
-  //今日の日付
-  let today = new Date();
   //１日後
-  today.setDate(today.getDate() + 1);
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
 
-  const month = today.getMonth();
-  const date = today.getDate();
-  const day = today.getDay();
-  const days = {
-    0: '日',
-    1: '月',
-    2: '火',
-    3: '水',
-    4: '木',
-    5: '金',
-    6: '土',
-  };
-  one_days_after.textContent = `${month + 1}/${date}(${days[day]})`;
+  one_days_after.textContent = formatDateWithDay(tomorrow);
 }
 
 getTomorrowDate();
@@ -46,22 +39,7 @@ function getTodayDate() {
   const Today = document.getElementById('Today');
   if (!Today) return;
 
-  //今日の日付
-  let today = new Date();
-
-  const month = today.getMonth();
-  const date = today.getDate();
-  const day = today.getDay();
-  const days = {
-    0: '日',
-    1: '月',
-    2: '火',
-    3: '水',
-    4: '木',
-    5: '金',
-    6: '土',
-  };
-  Today.textContent = `${month + 1}/${date}(${days[day]})`;
+  Today.textContent = formatDateWithDay(new Date());
 }
 
 getTodayDate();
@@ -96,25 +74,30 @@ function showCopyToast(message) {
   }, 1600);
 }
 
+const PLACEHOLDER_MARKERS = ['●●', '▲▲'];
+
 function wrapPlaceholders(p) {
+  const markerPattern = /(●●|▲▲)/g;
   const walker = document.createTreeWalker(p, NodeFilter.SHOW_TEXT);
   const targets = [];
   let node;
   while ((node = walker.nextNode())) {
-    if (node.nodeValue.includes('●●')) {
+    if (PLACEHOLDER_MARKERS.some((marker) => node.nodeValue.includes(marker))) {
       targets.push(node);
     }
   }
   targets.forEach((textNode) => {
-    const parts = textNode.nodeValue.split('●●');
+    const parts = textNode.nodeValue.split(markerPattern);
     const frag = document.createDocumentFragment();
-    parts.forEach((part, i) => {
-      if (part) frag.appendChild(document.createTextNode(part));
-      if (i < parts.length - 1) {
+    parts.forEach((part) => {
+      if (!part) return;
+      if (PLACEHOLDER_MARKERS.includes(part)) {
         const mark = document.createElement('span');
         mark.className = 'placeholder';
-        mark.textContent = '●●';
+        mark.textContent = part;
         frag.appendChild(mark);
+      } else {
+        frag.appendChild(document.createTextNode(part));
       }
     });
     textNode.parentNode.replaceChild(frag, textNode);
@@ -137,7 +120,7 @@ document.querySelectorAll('main p').forEach((p) => {
           void mark.offsetWidth;
           mark.classList.add('flash');
         });
-        showCopyToast('コピーしました（●●の書き換えを忘れずに）');
+        showCopyToast('コピーしました（●●・▲▲の書き換えを忘れずに）');
       } else {
         showCopyToast('コピーしました');
       }
